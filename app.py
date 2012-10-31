@@ -1,15 +1,15 @@
-"""
-Flask Documentation:     http://flask.pocoo.org/docs/
-Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
-Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
-
-This file creates your application.
-"""
 
 import os
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
+
+import builders
 
 app = Flask(__name__)
+
+from local_dev_help.scripts import consolelog #allows for display to foreman console
+app.config["DEBUG"] = True
+
+
 
 if 'SECRET_KEY' in os.environ:
     app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
@@ -18,13 +18,38 @@ else:
 
 
 ###
-# Routing for your application.
+# Routing
 ###
 
 @app.route('/')
-def home():
-    """Render website's home page."""
-    return render_template('home.html')
+def index():
+    '''
+    Make the front page
+    '''
+    return render_template('index.html', 
+                            title="ABD BLDGS - Start"
+                            )
+
+
+@app.route('/abds')
+def list_of_abandoned_bldgs():
+    '''
+    URL to access a JSON list of abandoned buildings
+    '''
+    abd_bldg_data = builders.abandoned_buildings.list_all()
+    abd_bldg_response = jsonify(abd_bldg_data)
+    return abd_bldg_response
+
+
+@app.route('/detail/<address>')
+def detail(address):
+    '''
+    URL to access a list of amenities within .6 miles of an address
+    '''
+    amn_data = builders.amenities.get_match(address)
+    amn_response = jsonify(amn_data)        
+
+    return amn_response
 
 
 @app.route('/about/')
@@ -54,12 +79,12 @@ def add_header(response):
     response.headers['Cache-Control'] = 'public, max-age=600'
     return response
 
-
+'''
 @app.errorhandler(404)
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
-
+'''
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
