@@ -2,6 +2,91 @@
 
 
 {% block js %}
+
+<script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyASkezRFKb_0y7QX4G_K98IQn3_S9jTgaQ&sensor=false">
+    </script>
+
+<script type="text/javascript">
+      
+      function initialize() {
+        
+        var mapOptions = {
+          center: new google.maps.LatLng(41.823525, -87.613077),
+          zoom: 13,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+
+        var ab_bldgs = [
+            {% for vac_row in vac_data %}
+              ["{{ vac_row["full_adr"] }}", {{ vac_row["lat"] }}, {{ vac_row["lon"] }} ],
+            {% endfor %}
+        ];
+
+        for (var i = 0; i < ab_bldgs.length; i++) {
+              var ab_bldg = ab_bldgs [i]
+              var marker = new google.maps.Marker({
+                  position: new google.maps.LatLng (ab_bldg[1], ab_bldg[2]),
+                  title: ab_bldg[0]
+              });
+              marker.setMap(map);
+          }
+
+      }
+
+    </script>
+
+<!-- dataTables plugin
+================================================= -->
+<script src={{ url_for('static', filename='datatables/js/jquery.dataTables.min.js') }}></script>
+<link rel="stylesheet" href={{ url_for('static', filename='datatables/css/jquery.dataTables.css') }}>
+<link rel="stylesheet" href={{ url_for('static', filename='stylesheets/bootstrap-dataTables-override.css') }}>
+
+<script type="text/javascript" charset="utf-8">
+    /*
+    jQuery.extend({
+    getValues: function(url) {
+        var result = null;
+        $.ajax({
+            url: url,
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success: function(data) {
+                result = data;
+            }
+        });
+       return result;
+    }
+    });
+
+    table_data = $.getValues("{{ url_for('list_of_abandoned_bldgs') }}")
+    */
+
+    $(document).ready(function() {
+        $('#abd_container').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="abd_table"></table>' );
+
+        $('#abd_table').dataTable(
+            {"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+            "bProcessing": true,
+            "sAjaxSource": "{{ url_for('list_of_abandoned_bldgs') }}",
+            "aoColumns": [
+                            {"sTitle":"Full Address"},
+                            {"sTitle":"zip"},
+                            {"sTitle":"LATITUDE"},
+                            {"sTitle":"LONGITUDE"},
+                            {"sTitle":"id"}
+                        ]
+                });
+    });
+
+    $.extend( $.fn.dataTableExt.oStdClasses, {
+        "sWrapper": "dataTables_wrapper form-inline"
+    } );
+</script>
 {% endblock %}
 
 
@@ -17,4 +102,26 @@
 </li>
 
 </ul>
+
+<div class="row">
+
+    <div class="span3">
+        Something goes here
+    </div>
+
+    <div class="span9">
+        <div id="map_canvas" style="width:700px; height:500px;" ></div>
+    </div>
+
+</div>
+
+<div class="row">
+
+
+
+    <div class="span12">
+        <div id="abd_container"></div>
+    </div>
+
+</div>
 {% endblock %}
