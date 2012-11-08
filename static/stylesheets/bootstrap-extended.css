@@ -1,0 +1,307 @@
+
+.slider { display:none; }
+
+
+/* 
+http://stackoverflow.com/questions/1638223/is-there-a-way-to-word-wrap-text-in-a-div
+Source: http://snipplr.com/view/10979/css-cross-browser-word-wrap */
+.wordwrap { 
+   white-space: pre-wrap;      /* CSS3 */   
+   white-space: -moz-pre-wrap; /* Firefox */    
+   white-space: -pre-wrap;     /* Opera <7 */   
+   white-space: -o-pre-wrap;   /* Opera 7 */    
+   word-wrap: break-word;      /* IE */
+}
+
+.nav #network-indicator {
+    display: block;
+    float: none;
+    padding: 10px 15px 10px;
+}
+
+#network-indicator.offline {
+    background-color: #FFCC66;
+}
+
+#network-indicator.online {
+    background-color: #00EB9C;
+}
+
+/*
+check the mini class in bootstrap css to replace this
+*/
+.dash {
+}
+
+.dash table {
+    margin-top: 15px; 
+    font-size: 10px;
+    border-collapse: separate;
+    border-spacing: 5px 0px;
+}
+
+.dash th {
+    font-size: 11px;
+    font-weight: bolder;
+}
+
+.dash input[type="text"] {
+    margin: 0px;
+    padding: 0px;
+    width: 40px;
+}
+
+.dash label{
+    display:none;
+}
+
+
+
+/*
+http://alittlecode.com/files/jQuery-Validate-Demo/
+*/
+
+/*
+check the control group.error classes 
+in bootstrap to replace this
+*/
+
+label.error {
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 24px;
+    color: #FCE8E8;
+    background-color: #D68484;
+    text-shadow:none;
+    white-space: nowrap;
+    vertical-align: baseline;
+    padding: 1px 4px 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+
+
+.form_row .row {
+    margin-left: 0px;
+}
+
+.form_row legend {
+    font-size: 16px;
+    line-height: 30px;
+    color: white;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #5A5A5A;
+    padding: 1px 2px 2px 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+
+.form_row label {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 24px;
+    color: white;
+    text-shadow: none;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #999;
+    padding: 1px 2px 2px 2px;
+}
+
+.form_row select{
+    padding: 4px 0px;
+}
+
+.form_row input[type="text"], input[type="number"]{
+    padding: 4px 0px;
+}
+
+
+/* desktop */
+@media (min-width: 1026px) {
+    
+    body {
+        /* 60px to make the container go all 
+        the way to the bottom of the topbar */
+        padding-top: 60px; 
+    }
+
+    .form_row .span3 legend {
+        width: 360px;
+    }
+
+    .form_row .span3 label {
+        width: 340px;
+    }
+
+    .form_row .span3 select {
+        width: 320px;
+    }
+
+    .form_row .span3 input {
+        width: 320px;
+    }   
+
+    
+    .form_row .span4 legend {
+        width: 360px;
+    }
+
+    .form_row .span4  label {
+        width: 340px;
+    }
+
+    .form_row .span4 select {
+        width: 320px;
+    }
+
+    .form_row .span4 input {
+        width: 320px;
+    } 
+
+ 
+
+}
+ 
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 1025px) {
+    
+    body {
+        padding-top: 60px;
+    }
+
+    .form_row .span3 legend {
+        width: 215px;
+    }
+
+    .form_row .span3 label {
+        width: 215px;
+    }
+    
+    .form_row .span3 select {
+        width: 215px;
+    }
+
+    .form_row .span3 input {
+        width: 215px;
+    }    
+    
+    .form_row .span4 legend {
+        width: 295px;
+    }
+
+    .form_row .span4  label {
+        width: 295px;
+    }
+
+    .form_row .span4 select {
+        width: 295px;
+    }
+
+    .form_row .span4 input {
+        width: 295px;
+    } 
+
+    .form_row .span6 legend {
+        width: 450px;
+    }
+
+    .form_row .span6  label {
+        width: 450px;
+    }
+
+    .form_row .span6 select {
+        width: 450px;
+    }
+
+    .form_row .span6 input {
+        width: 450px;
+    } 
+
+
+}
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+    
+    body {
+        padding-top: 0px; /* 60px pushes nav bar too low*/
+    }
+
+    .form_row .span3 legend {
+        width: 166px;
+    }
+
+    .form_row .span3 label {
+        width: 166px;
+    }
+
+    .form_row .span4 legend {
+        width: 220px;
+    }
+
+    .form_row .span4  label {
+        width: 210px;
+    }
+
+    .form_row .span4 select {
+        width: 200px;
+    }
+
+    .form_row .span4 input {
+        width: 200px;
+    } 
+
+    .form_row .span3 select {
+        width: 166px;
+    }
+
+    .form_row .span3 input {
+        width: 166px;
+    } 
+}
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) {
+
+    body {
+        padding-top: 0px; /* 60px pushes nav bar too low*/
+    }
+
+    .form_row .span3 legend {
+        width: 250px;
+    }
+
+    .form_row .span3 label {
+        width: 230px;
+    }
+
+    .form_row .span4 legend {
+        width: 250px;
+    }
+
+    .form_row .span4  label {
+        width: 230px;
+    }
+
+    .form_row .span4 select {
+        width: 200px;
+    }
+
+    .form_row .span4 input {
+        width: 200px;
+    } 
+
+    .form_row .span3 select {
+        width: 200px;
+    }
+
+    .form_row .span3 input {
+        width: 200px;
+    } 
+}

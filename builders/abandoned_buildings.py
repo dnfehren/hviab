@@ -22,8 +22,8 @@ def list_all():
                 v_data.append(row)
 
     head = {'titles':v_header}
-    data = {'data':v_data}
+    data = {'rows':v_data}
 
-    data_container = {"abd_bldgs" : [head, data]} 
+    data_container = {"data" : [head, data]} 
     
     return data_container

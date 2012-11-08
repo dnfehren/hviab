@@ -2,19 +2,134 @@
 
 
 {% block js %}
+
+
+<!-- load data from server
+================================================= -->
+<script type="text/javascript">
+
+$(document).ready(function(){
+    //get the list of abandoned bldgs from server
+    // stored in ab_bldgs
+    $.ajax({
+            async: false,
+            type: "GET",
+            url: "{{ url_for('list_of_abandoned_bldgs') }}",
+            dataType: "json",
+            success: function(data){ ab_bldgs = data ; }
+    });
+});
+
+</script>
+
+
+<!-- Map
+================================================= -->
+<script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyASkezRFKb_0y7QX4G_K98IQn3_S9jTgaQ&sensor=false"></script>
+
+<script type="text/javascript">
+    
+    function initialize() {
+        
+        var map = new google.maps.Map(document.getElementById('map-canvas'), {
+            center: new google.maps.LatLng(41.823525, -87.613077),
+            zoom: 13,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        for (var i = 0; i < ab_bldgs.data[1].rows.length; i++) {
+              var ab_bldg = ab_bldgs.data[1].rows[i];
+              
+              var marker = new google.maps.Marker({
+                  position: new google.maps.LatLng (ab_bldg[25], ab_bldg[26]),
+                  title: ab_bldg[19]
+              });
+              marker.setMap(map);
+        } // close marker loop
+
+    } // close initialize()
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+
+<!-- dataTable and table rowlink
+================================================= -->
+<script src={{ url_for('static', filename='vendor/jquery-datatables/js/jquery.dataTables.min.js') }}></script>
+<link rel="stylesheet" href={{ url_for('static', filename='vendor/jquery-datatables/css/jquery.dataTables.css') }}>
+<link rel="stylesheet" href={{ url_for('static', filename='stylesheets/bootstrap-dataTables-override.css') }}>
+
+<script src={{ url_for("static", filename="vendor/bootstrap-rowlink/bootstrap-rowlink.js") }}></script>
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+            $('#abd-table').dataTable(
+                {"sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>",
+                    "aaData" : ab_bldgs.data[1].rows,
+                    "aoColumns" : ab_bldgs.data[0].titles
+                });
+    });
+
+    $.extend( $.fn.dataTableExt.oStdClasses, {
+        "sWrapper": "dataTables_wrapper form-inline"
+    } );
+</script>
+
 {% endblock %}
 
 
 {% block main %}
-<ul>
-<li>load the map from google or mapbox or whatever</li>
-<li>load jquery data tables</li>
-<li> TABLE
-    <ul>
-        <li>use the ajax to get it from <a href="/abds">abds</a></li>
-        <li>include link to building specific page</li>
-    </ul>
-</li>
 
-</ul>
+<div class="container">
+
+    <div class="row">
+        
+        <div class="span3">
+            <h1>Hidden Value in Abandoned Buildings</h1>
+
+            <h2>Description</h2>
+            <p>We seek to reveal the hidden positive value 
+                in abandoned buildings in the city of Chicago</p>
+
+            <blockquote>
+                <h3>Created by</h3>
+                <ul>
+                    <li><a href="http://dnfehrenbach.com">Dan Fehrenbach</a>
+                        <ul>
+                            <li>code and design</li>
+                            <li><a href="http://twitter.com/dnfehren">@dnfehren</a></li>
+                        </ul>
+                    </li>
+                    <li>Audrey Henderson
+                        <ul>
+                            <li>inspiration and content</li>
+                            <li><a href="http://twitter.com/InTheKn0w">@InTheKn0w</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </blockquote>
+        </div>
+
+        <div class="span6">
+            <div id="map-canvas" style="width:700px; height:500px;" ></div>
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="span12">
+            <table id="abd-table">
+                <thead></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+
 {% endblock %}

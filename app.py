@@ -27,7 +27,7 @@ def index():
     Make the front page
     '''
     return render_template('index.html', 
-                            title="ABD BLDGS - Start"
+                            title="HVIAB - Start"
                             )
 
 
@@ -48,14 +48,13 @@ def detail(address):
     '''
     amn_data = builders.amenities.get_match(address)
     amn_response = jsonify(amn_data)        
-
     return amn_response
 
 
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html')
+    return render_template('about.html', title="HVIAB - About")
 
 
 ###
@@ -79,12 +78,12 @@ def add_header(response):
     response.headers['Cache-Control'] = 'public, max-age=600'
     return response
 
-'''
+
 @app.errorhandler(404)
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
-'''
+
 
 if __name__ == '__main__':
     app.run()
