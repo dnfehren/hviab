@@ -86,7 +86,7 @@ def detail(address):
 
             page_data["match_count"] = len(am_match_data)
 
-    return render_template("detailrev.html",
+    return render_template("detail.html",
                             am_data=page_data,
                             title="HVIAB - detail")
 
