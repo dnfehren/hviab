@@ -3,6 +3,12 @@ import csv
 from local_dev_help.scripts import consolelog
 
 def get_match(id):
+    '''
+    not yet used in the app, using old logic from initial hackathon version
+
+    need to figure out how to get json data loaded into page w/o
+    full request back to flask/page reload
+    '''
 
     a_data = []
 

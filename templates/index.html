@@ -42,8 +42,8 @@ $(document).ready(function(){
               var ab_bldg = ab_bldgs.data[1].rows[i];
               
               var marker = new google.maps.Marker({
-                  position: new google.maps.LatLng (ab_bldg[25], ab_bldg[26]),
-                  title: ab_bldg[19]
+                  position: new google.maps.LatLng (ab_bldg[6], ab_bldg[7]),
+                  title: ab_bldg[0]
               });
               marker.setMap(map);
         } // close marker loop
