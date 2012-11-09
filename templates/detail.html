@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+    
+    <script src={{ url_for('static', filename='vendor/jquery-datatables/js/jquery.dataTables.min.js') }}></script>
+
+    <link rel="stylesheet" href={{ url_for('static', filename='vendor/jquery-datatables/css/jquery.dataTables.css') }}>
+
+    <link rel="stylesheet" href={{ url_for('static', filename='stylesheets/bootstrap-dataTables-override.css') }}>
+
+    <script type="text/javascript">
+
+      $(document).ready(function() {
+        $('#data_table').dataTable( {
+        "sDom": "<'row'<'span6'l><'span6'f>r>t<'row'<'span6'i><'span6'p>>"
+        } );
+      } );
+      
+      $.extend( $.fn.dataTableExt.oStdClasses, {
+        "sWrapper": "dataTables_wrapper form-inline"
+      } );
+
+    </script>
+
+    <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?key=AIzaSyASkezRFKb_0y7QX4G_K98IQn3_S9jTgaQ&sensor=false">
+    </script>
+
+    <script type="text/javascript">
+
+        function initialize() {
+        
+            var mapOptions = {
+              center: new google.maps.LatLng({{ am_data["ab_bldg"]["lat"] }}, {{ am_data["ab_bldg"]["lon"] }}),
+              zoom: 13,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+
+            var amenity_bldgs = [
+                {% for am_row in am_data["matches"] %}
+                  ["{{ am_row["am_full_adr"] }}", {{ am_row["lat"] }}, {{ am_row["lon"] }} ],
+                {% endfor %}
+            ];
+
+            for (var i = 0; i < amenity_bldgs.length; i++) {
+                  var am_bldg = amenity_bldgs[i]
+                  var marker = new google.maps.Marker({
+                      position: new google.maps.LatLng (am_bldg[1], am_bldg[2]),
+                      title: am_bldg[0]
+                  });
+                  marker.setMap(map);
+              }
+
+            var blueIcon = "http://www.google.com/intl/en_us/mapfiles/ms/micons/blue-dot.png";
+
+            var ab_bldg_marker = new google.maps.Marker({
+              position: new google.maps.LatLng ({{ am_data["ab_bldg"]["lat"] }}, {{ am_data["ab_bldg"]["lon"] }}),
+              map: map,
+              icon: blueIcon
+            });
+
+            ab_bldg_marker.setMap(map)
+        }     
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+
+{% endblock %}
+
+
+{% block main %}
+
+    <div class="container">
+
+    <h2>{{ am_data["ab_bldg"]["adr"] }}</h2>
+    
+      <div class="row">
+        <div class="span3">
+          <p>{{ am_data["match_count"] }} amenities found w/in .5 miles</p>
+        </div>
+        
+        <div class="span9">
+          <div id="map_canvas" style="width:700px; height:500px;" ></div>
+        </div>
+
+      <div class="row">  - - </div>
+
+      </div>
+      <div class="row">
+        <div class="span12">
+          
+          <table id="data_table" class="table table-striped">
+              <thead>
+                <tr>
+                  <th>type</th>
+                  <th>name</th>
+                  <th>address</th>
+                  <th>distance (miles)</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for am_row in am_data["matches"] %}
+                <tr>
+                  <td>{{ am_row["type"] }}</td>
+                  <td>{{ am_row["am_name"] }}</td>
+                  <td>{{ am_row["am_full_adr"] }}</td>
+                  <td>{{ am_row["dist_to_am"] }}</td>
+                </tr>
+                {% else %}
+                <tr><td>Nothing?</td></tr>
+              {% endfor %}
+              </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div> <!-- /container -->
+
+{% endblock %}
