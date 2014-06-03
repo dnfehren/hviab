@@ -61,6 +61,8 @@ def detail(address):
     page_data = {}
     am_match_data = []
 
+    #print am_full_data
+
     for am_row in am_full_data:
         
         if address == am_row[0]:
@@ -85,6 +87,8 @@ def detail(address):
             page_data["matches"] = am_match_data
 
             page_data["match_count"] = len(am_match_data)
+
+            print page_data
 
     return render_template("detail.html",
                             am_data=page_data,
