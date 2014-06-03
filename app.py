@@ -73,7 +73,7 @@ def detail(address):
             page_data["ab_bldg"]["lat"] = am_row[2]
             page_data["ab_bldg"]["lon"] = am_row[3]
 
-            if float(am_row[10]) < .5:
+            if float(am_row[10]) < .75:
                 am_entry = {}
                 am_entry["type"] = am_row[4]
                 am_entry["am_name"] = am_row[5]
