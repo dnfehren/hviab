@@ -7,7 +7,7 @@ def list_all():
     v_header = []
     v_data = []
 
-    with open('./data_src/vacants_snap.csv') as vacants_csv:
+    with open('./data/vacants_data.csv') as vacants_csv:
         v_reader = csv.reader(vacants_csv)
 
         for row_num, row in enumerate(v_reader):

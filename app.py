@@ -53,15 +53,13 @@ def detail(address):
     am_full_data = []
 
 
-    with open('./data_src/amenities.csv', 'rb') as csvfile:
+    with open('./data/amenities_data.csv', 'rb') as csvfile:
         amreader = csv.reader(csvfile)
         for row in amreader:
             am_full_data.append(row)
 
     page_data = {}
     am_match_data = []
-
-    #print am_full_data
 
     for am_row in am_full_data:
         
@@ -73,7 +71,7 @@ def detail(address):
             page_data["ab_bldg"]["lat"] = am_row[2]
             page_data["ab_bldg"]["lon"] = am_row[3]
 
-            if float(am_row[10]) < .75:
+            if float(am_row[10]) < .5:
                 am_entry = {}
                 am_entry["type"] = am_row[4]
                 am_entry["am_name"] = am_row[5]
@@ -87,8 +85,6 @@ def detail(address):
             page_data["matches"] = am_match_data
 
             page_data["match_count"] = len(am_match_data)
-
-            print page_data
 
     return render_template("detail.html",
                             am_data=page_data,

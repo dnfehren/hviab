@@ -12,7 +12,7 @@ def get_match(id):
 
     a_data = []
 
-    with open('./data_src/amenities.csv') as amenities_csv:
+    with open('./data_src/amenities_data.csv') as amenities_csv:
         a_reader = csv.reader(amenities_csv)
 
         for row_num, row in enumerate(a_reader):
